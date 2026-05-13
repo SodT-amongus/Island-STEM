@@ -3,9 +3,9 @@
 export const Home = () => {
   return (
     <div>
-      <h1>Hello world</h1>
       {/* <Header /> */}
       <div style={{ position: "relative", height: "80vh", overflow: "hidden" }}>
+        <h1>Hello World</h1>
         <div
           style={{
             position: "absolute",
