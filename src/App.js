@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
-import { SignIn } from "../../blog/src/pages/SignIn";
-import { SignUp } from "../../blog/src/pages/SignUp";
+import { SignIn } from "./pages/SignIn";
+import { SignUp } from "./pages/SignUp";
 
 export const App = () => {
   return (

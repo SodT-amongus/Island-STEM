@@ -2,8 +2,9 @@ import { Header } from "../components/Header";
 
 export const Home = () => {
   return (
-    <div style={{ backgroundColor: "#36393F" }}>
-      <Header />
+    <div>
+      <h1>Hello world</h1>
+      {/* <Header /> */}
       <div style={{ position: "relative", height: "80vh", overflow: "hidden" }}>
         <div
           style={{
