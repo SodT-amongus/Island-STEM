@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import { signOutFunction } from "../firebase/Firebase";
+import gearIcon from "../assets/gear-icon.png";
 
 export const Header = () => {
   const { currentUser } = useUserContext();
@@ -18,23 +19,43 @@ export const Header = () => {
   return (
     <div
       style={{
-        height: "100px",
+        height: "70px",
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
         padding: "0 40px",
+        backgroundColor: "#c7edfc",
       }}
     >
-      <Link to="/">
-        <p>Home</p>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
+          <div>
+            <img
+              src={gearIcon}
+              style={{ width: 24, height: 24 }}
+              alt="gear icon"
+            />
+          </div>
+          <p style={{ fontSize: 22, fontWeight: 600 }}>Island City STEM</p>
+        </div>
       </Link>
 
       <div style={{ display: "flex", gap: 30 }}>
         <Link to="/" style={{ textDecoration: "none", color: "#3B3C4A" }}>
           Home
         </Link>
-        <Link to="/blogs" style={{ textDecoration: "none", color: "#3B3C4A" }}>
-          Blogs
+        <Link
+          to="/Projects-Events"
+          style={{ textDecoration: "none", color: "#3B3C4A" }}
+        >
+          Projects and Events
         </Link>
       </div>
 
