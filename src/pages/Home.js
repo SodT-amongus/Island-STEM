@@ -19,6 +19,7 @@ export const Home = () => {
             filter: "grayscale(50%) brightness(70%) opacity(90%)",
           }}
           src="https://i.postimg.cc/HkRfRXvG/image.png"
+          alt="FRC"
         />
         <div
           style={{
