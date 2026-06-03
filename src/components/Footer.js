@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
     <div
-      style={{ backgroundColor: "#c7edfc", padding: "60px 0", marginTop: 50 }}
+      style={{ backgroundColor: "#8ecfca", padding: "60px 0", marginTop: 0 }}
     >
       <div
         style={{
@@ -10,7 +10,7 @@ export const Footer = () => {
           margin: "0 auto",
           maxWidth: 1200,
           padding: "0 40px",
-          gap: 20,
+          gap: 0,
         }}
       >
         <div
@@ -28,13 +28,14 @@ export const Footer = () => {
               style={{
                 lineHeight: "25px",
                 margin: 0,
+                color: "white",
               }}
             >
               About
             </h4>
             <p
               style={{
-                color: "#696a75",
+                color: "#F5F0E8",
                 margin: 0,
               }}
             >
@@ -42,29 +43,26 @@ export const Footer = () => {
               on Alameda Island. Connect, learn, and build the future.
             </p>
             <div style={{ lineHeight: "20px", marginTop: 10 }}>
-              <p>
+              <p style={{ color: "#F7F4EF" }}>
                 <b>Email:</b> sodtum1023@gmail.com
               </p>
-              <p>
+              <p style={{ color: "#F7F4EF" }}>
                 <b>Phone:</b> 628-444-8804
               </p>
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", rowGap: 10 }}>
-            <a
-              style={{ textDecoration: "none", color: " rgb(59, 60, 74)" }}
-              href="/"
-            >
+            <a style={{ textDecoration: "none", color: " #F5F0E8" }} href="/">
               Home
             </a>
             <a
-              style={{ textDecoration: "none", color: "rgb(59, 60, 74)" }}
+              style={{ textDecoration: "none", color: "#F5F0E8" }}
               href="/blogs"
             >
               Blogs
             </a>
             <a
-              style={{ textDecoration: "none", color: "rgb(59, 60, 74)" }}
+              style={{ textDecoration: "none", color: "#F5F0E8" }}
               href="/contact-us"
             >
               Contact
@@ -103,24 +101,15 @@ export const Footer = () => {
           }}
         ></div>
         <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-          <a
-            href="/"
-            style={{ color: "rgb(59, 60, 74)", textDecoration: "none" }}
-          >
+          <a href="/" style={{ color: "#F7F4EF", textDecoration: "none" }}>
             Terms of Service
           </a>
           <hr style={{ height: 30, backgroundColor: "whitesmoke" }}></hr>
-          <a
-            href="/"
-            style={{ color: "rgb(59, 60, 74)", textDecoration: "none" }}
-          >
+          <a href="/" style={{ color: "#F7F4EF", textDecoration: "none" }}>
             Privacy Policy
           </a>
-          <hr style={{ height: 30, backgroundColor: "whitesmoke" }}></hr>
-          <a
-            href="/"
-            style={{ color: "rgb(59, 60, 74)", textDecoration: "none" }}
-          >
+          <hr style={{ height: 30, backgroundColor: "#D4E8ED" }}></hr>
+          <a href="/" style={{ color: "#F7F4EF", textDecoration: "none" }}>
             Cookie Policy
           </a>
         </div>

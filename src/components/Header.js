@@ -23,8 +23,8 @@ export const Header = () => {
         display: "flex",
         justifyContent: "space-around",
         alignItems: "center",
-        padding: "0 40px",
-        backgroundColor: "#c7edfc",
+        padding: "0 60px",
+        backgroundColor: "#8ecfca",
       }}
     >
       <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -43,17 +43,19 @@ export const Header = () => {
               alt="gear icon"
             />
           </div>
-          <p style={{ fontSize: 22, fontWeight: 600 }}>Island City STEM</p>
+          <p style={{ fontSize: 22, fontWeight: 700, color: "white" }}>
+            Island City STEM
+          </p>
         </div>
       </Link>
 
-      <div style={{ display: "flex", gap: 30 }}>
-        <Link to="/" style={{ textDecoration: "none", color: "#3B3C4A" }}>
+      <div style={{ display: "flex", gap: 30, fontWeight: 600 }}>
+        <Link to="/" style={{ textDecoration: "none", color: "white" }}>
           Home
         </Link>
         <Link
           to="/Projects-Events"
-          style={{ textDecoration: "none", color: "#3B3C4A" }}
+          style={{ textDecoration: "none", color: "white", fontWeight: 600 }}
         >
           Projects and Events
         </Link>
@@ -68,8 +70,8 @@ export const Header = () => {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}>
-            {currentUser
+          <Avatar sx={{ width: 32, height: 32, bgcolor: "#E8D5A3" }}>
+            {currentUser?.displayName
               ? currentUser.displayName.slice(0, 1).toUpperCase()
               : "U"}
           </Avatar>
