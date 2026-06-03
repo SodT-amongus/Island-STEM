@@ -4,7 +4,6 @@ import { useState } from "react";
 import { uploadImage } from "../cloudinary";
 import { useUserContext } from "../context/UserContext";
 import { activityCollection } from "../firebase/Firebase";
-import { Button } from "./Button";
 import { TextField } from "./TextField";
 
 export const CreateActivityModal = ({ open, handleClose }) => {

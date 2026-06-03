@@ -12,7 +12,7 @@ export const ActivityPage = () => {
   const { activities, activitiesLoading } = useActivityContext();
   const { currentUser } = useUserContext();
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const { setOpenDelete } = useState(false);
 
   const activity = activities.find((a) => a.activityId === id);
   const isOwner =

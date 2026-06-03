@@ -1,6 +1,5 @@
 import { Box, Modal } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Button } from "./Button";
 
 export const NotLoggedIn = ({ open, handleClose }) => {
   const navigate = useNavigate();

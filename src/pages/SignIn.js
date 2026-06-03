@@ -124,7 +124,6 @@ export const SignIn = () => {
             <a
               style={{
                 textDecoration: "none",
-                color: "black",
                 fontSize: "13px",
                 color: "white",
                 textAlign: "center",
