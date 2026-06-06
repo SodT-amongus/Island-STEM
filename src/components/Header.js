@@ -59,6 +59,12 @@ export const Header = () => {
         >
           Projects and Events
         </Link>
+        <Link
+          to="/Get-Involved"
+          style={{ textDecoration: "none", color: "white", fontWeight: 600 }}
+        >
+          Get Involved
+        </Link>
       </div>
 
       <Tooltip title="Account settings">

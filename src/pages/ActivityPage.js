@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { UpdateActivityModal } from "../components/UpdateActivityModal";
-// import { DeleteActivityModal } from "../components/DeleteActivityModal";
+import { DeleteActivityModal } from "../components/DeleteActivityModal";
 import { useActivityContext } from "../context/ActivitiyContext";
 import { useUserContext } from "../context/UserContext";
 
@@ -12,7 +12,7 @@ export const ActivityPage = () => {
   const { activities, activitiesLoading } = useActivityContext();
   const { currentUser } = useUserContext();
   const [openUpdate, setOpenUpdate] = useState(false);
-  const { setOpenDelete } = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   const activity = activities.find((a) => a.activityId === id);
   const isOwner =
@@ -175,7 +175,11 @@ export const ActivityPage = () => {
           handleClose={() => setOpenUpdate(false)}
           activity={activity}
         />
-        {/* <DeleteActivityModal open={openDelete} handleClose={() => setOpenDelete(false)} activity={activity} /> */}
+        <DeleteActivityModal
+          open={openDelete}
+          handleClose={() => setOpenDelete(false)}
+          activity={activity}
+        />
       </div>
 
       <Footer />

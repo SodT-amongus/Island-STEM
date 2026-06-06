@@ -4,6 +4,7 @@ import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { ProjectsEvents } from "./pages/ProjectsEvents";
 import { ActivityPage } from "./pages/ActivityPage";
+import { GetInvolved } from "./pages/GetInvolved";
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/Projects-Events" element={<ProjectsEvents />} />
         <Route path="/activities/:id" element={<ActivityPage />} />
+        <Route path="/Get-Involved" element={<GetInvolved />} />
       </Routes>
     </BrowserRouter>
   );
