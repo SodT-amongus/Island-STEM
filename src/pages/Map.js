@@ -19,7 +19,7 @@ delete L.Icon.Default.prototype._getIconUrl;
 
 const customIcon = new L.Icon({
   iconUrl: "https://i.postimg.cc/52TPMPmm/image.png",
-  iconSize: [32, 32],
+  iconSize: [20, 32],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
   className: "custom-marker-icon",
