@@ -65,6 +65,12 @@ export const Header = () => {
         >
           Get Involved
         </Link>
+        <Link
+          to="/interactive-map"
+          style={{ textDecoration: "none", color: "white", fontWeight: 600 }}
+        >
+          Interactive Map
+        </Link>
       </div>
 
       <Tooltip title="Account settings">

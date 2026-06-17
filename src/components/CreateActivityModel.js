@@ -1,10 +1,28 @@
 import { Box, MenuItem, Modal, Select } from "@mui/material";
 import { addDoc, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { uploadImage } from "../cloudinary";
 import { useUserContext } from "../context/UserContext";
 import { activityCollection } from "../firebase/Firebase";
+import { reverseGeocode } from "../utils/geocode";
 import { TextField } from "./TextField";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: "https://i.postimg.cc/52TPMPmm/image.png",
+});
+
+const LocationPicker = ({ onLocationPick }) => {
+  useMapEvents({
+    click(e) {
+      onLocationPick(e.latlng);
+    },
+  });
+  return null;
+};
 
 export const CreateActivityModal = ({ open, handleClose }) => {
   const { currentUser } = useUserContext();
@@ -13,28 +31,59 @@ export const CreateActivityModal = ({ open, handleClose }) => {
   const [content, setContent] = useState("");
   const [type, setType] = useState("");
   const [file, setFile] = useState();
+  const [loading, setLoading] = useState(false);
+  const [markerPos, setMarkerPos] = useState(null);
+  const [locationName, setLocationName] = useState("");
+  const [geocoding, setGeocoding] = useState(false);
+
+  const ALAMEDA_CENTER = [37.7692, -122.2616];
+
+  const handleMapClick = async (latlng) => {
+    setMarkerPos(latlng);
+    setGeocoding(true);
+    const name = await reverseGeocode(latlng.lat, latlng.lng);
+    setLocationName(
+      name || `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`,
+    );
+    setGeocoding(false);
+  };
 
   const handleSubmit = async () => {
     if (!title || !description || !content || !type) {
-      alert("Please fill out all the fields!");
+      alert("Please fill out all required fields!");
       return;
     }
-    const imageURL = await uploadImage(file);
-    await addDoc(activityCollection, {
-      title,
-      description,
-      content,
-      type,
-      imageURL,
-      createdAt: serverTimestamp(),
-      userId: currentUser.uid,
-    });
-    setTitle("");
-    setDescription("");
-    setContent("");
-    setType("");
-    setFile();
-    handleClose();
+    setLoading(true);
+    try {
+      const imageURL = await uploadImage(file);
+      await addDoc(activityCollection, {
+        title,
+        description,
+        content,
+        type,
+        imageURL,
+        location: locationName || null,
+        coordinates: markerPos
+          ? { lat: markerPos.lat, lng: markerPos.lng }
+          : null,
+        createdAt: serverTimestamp(),
+        userId: currentUser.uid,
+      });
+
+      setTitle("");
+      setDescription("");
+      setContent("");
+      setType("");
+      setFile();
+      setMarkerPos(null);
+      setLocationName("");
+      handleClose();
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,11 +94,10 @@ export const CreateActivityModal = ({ open, handleClose }) => {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 460,
+          width: 500,
           backgroundColor: "#0B2545",
           borderRadius: "10px",
-          overflow: "hidden",
-          outline: "none",
+          maxHeight: "90vh",
         }}
       >
         <div
@@ -63,7 +111,7 @@ export const CreateActivityModal = ({ open, handleClose }) => {
           <h2
             style={{
               color: "#F5F0E8",
-              fontSize: 24,
+              fontSize: 22,
               fontWeight: 800,
             }}
           >
@@ -71,23 +119,24 @@ export const CreateActivityModal = ({ open, handleClose }) => {
           </h2>
 
           <TextField
-            placeholder="Title..."
             type="text"
+            placeholder="Title..."
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
-            placeholder="Description..."
             type="text"
+            placeholder="Description..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <TextField
-            placeholder="Content..."
             type="text"
+            placeholder="Content..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
+
           <Select
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -96,7 +145,7 @@ export const CreateActivityModal = ({ open, handleClose }) => {
               height: 42,
               borderRadius: "6px",
               fontSize: 14,
-              color: "#F5F0E8",
+              color: "white",
               backgroundColor: "rgba(255,255,255,0.07)",
             }}
           >
@@ -106,6 +155,73 @@ export const CreateActivityModal = ({ open, handleClose }) => {
             <MenuItem value="project">Project</MenuItem>
             <MenuItem value="event">Event</MenuItem>
           </Select>
+
+          <div>
+            <p style={{ color: "#a8c5e8", fontSize: 13, margin: "0 0 8px" }}>
+              Click the map to mark a location for the activity (optional)
+            </p>
+            <div
+              style={{
+                borderRadius: 8,
+                height: 220,
+              }}
+            >
+              <MapContainer
+                center={ALAMEDA_CENTER}
+                zoom={12}
+                style={{ height: "100%", width: "100%" }}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <LocationPicker onLocationPick={handleMapClick} />
+                {markerPos && (
+                  <Marker
+                    position={markerPos}
+                    draggable
+                    eventHandlers={{
+                      dragend(e) {
+                        handleMapClick(e.target.getLatLng());
+                      },
+                    }}
+                  />
+                )}
+              </MapContainer>
+            </div>
+
+            {geocoding && (
+              <p style={{ color: "white", fontSize: 12, margin: "6px 0 0" }}>
+                Fetching address...
+              </p>
+            )}
+            {!geocoding && locationName && (
+              <p
+                style={{
+                  color: "white",
+                  fontSize: 12,
+                  margin: "6px 0 0",
+                }}
+              >
+                {locationName}
+                <span
+                  onClick={() => {
+                    setMarkerPos(null);
+                    setLocationName("");
+                  }}
+                  style={{
+                    color: "#e05a5a",
+                    marginLeft: 8,
+                    cursor: "pointer",
+                    fontWeight: 800,
+                  }}
+                >
+                  ✕ Clear
+                </span>
+              </p>
+            )}
+          </div>
+
           <label
             style={{
               display: "flex",
@@ -122,7 +238,6 @@ export const CreateActivityModal = ({ open, handleClose }) => {
                 borderRadius: 6,
                 color: "#a8c5e8",
                 fontSize: 13,
-                whiteSpace: "nowrap",
               }}
             >
               Choose Image
@@ -131,9 +246,6 @@ export const CreateActivityModal = ({ open, handleClose }) => {
               style={{
                 color: "rgba(168,197,232,0.6)",
                 fontSize: 13,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
               }}
             >
               {file ? file.name : "No file chosen"}
@@ -148,12 +260,13 @@ export const CreateActivityModal = ({ open, handleClose }) => {
           <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
             <button
               onClick={handleClose}
+              disabled={loading}
               style={{
                 flex: 1,
                 padding: "12px",
                 backgroundColor: "transparent",
                 color: "#F5F0E8",
-                border: "1px solid rgba(255,255,255,0.25)",
+                border: "1.5px solid",
                 borderRadius: 6,
                 fontSize: 14,
                 fontWeight: 700,
@@ -164,18 +277,19 @@ export const CreateActivityModal = ({ open, handleClose }) => {
             </button>
             <button
               onClick={handleSubmit}
+              disabled={loading}
               style={{
                 flex: 1,
+                padding: "12px",
                 backgroundColor: "#F4E04D",
                 color: "#0B2545",
                 border: "none",
                 borderRadius: 6,
                 fontSize: 14,
                 fontWeight: 700,
-                cursor: "pointer",
               }}
             >
-              Post
+              {loading ? "Posting..." : "Post"}
             </button>
           </div>
         </div>

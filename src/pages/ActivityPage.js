@@ -83,6 +83,9 @@ export const ActivityPage = () => {
               month: "long",
               day: "numeric",
             })}
+            <br />
+            <br />
+            {activity.location}
           </p>
         )}
       </div>

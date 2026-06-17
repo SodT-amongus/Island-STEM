@@ -5,6 +5,7 @@ import { SignUp } from "./pages/SignUp";
 import { ProjectsEvents } from "./pages/ProjectsEvents";
 import { ActivityPage } from "./pages/ActivityPage";
 import { GetInvolved } from "./pages/GetInvolved";
+import { Map } from "./pages/Map";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
         <Route path="/Projects-Events" element={<ProjectsEvents />} />
         <Route path="/activities/:id" element={<ActivityPage />} />
         <Route path="/Get-Involved" element={<GetInvolved />} />
+        <Route path="/interactive-map" element={<Map />} />
       </Routes>
     </BrowserRouter>
   );

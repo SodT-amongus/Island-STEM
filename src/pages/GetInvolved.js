@@ -175,7 +175,7 @@ export const GetInvolved = () => {
             <input
               placeholder="Subject"
               style={{
-                width: "100%",
+                width: "495px",
                 padding: "11px 14px",
                 backgroundColor: "rgba(255,255,255,0.07)",
                 border: "none",
@@ -191,7 +191,7 @@ export const GetInvolved = () => {
               placeholder="Write a message..."
               rows={6}
               style={{
-                width: "100%",
+                width: "495px",
                 padding: "11px 14px",
                 backgroundColor: "rgba(255,255,255,0.07)",
                 border: "none",
