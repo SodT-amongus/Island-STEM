@@ -5,6 +5,25 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { useActivityContext } from "../context/ActivitiyContext";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+const FlyTo = ({ coords }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (coords) map.flyTo([coords.lat, coords.lng], 15, { duration: 1 });
+  }, [coords, map]);
+  return null;
+};
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+const customIcon = new L.Icon({
+  iconUrl: "https://i.postimg.cc/52TPMPmm/image.png",
+  iconRetinaUrl: "https://i.postimg.cc/52TPMPmm/image.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 
 export const Map = () => {
   const { activities, activitiesLoading } = useActivityContext();
@@ -46,15 +65,13 @@ export const Map = () => {
 
       <div
         style={{
-          position: "relative",
           backgroundColor: "#0B2545",
-          padding: "60px 80px 50px",
+          padding: "60px 80px",
           overflow: "hidden",
         }}
       >
         <h1
           style={{
-            position: "relative",
             color: "#F5F0E8",
             fontSize: 42,
             fontWeight: 800,
@@ -67,12 +84,9 @@ export const Map = () => {
             position: "relative",
             color: "#a8c5e8",
             fontSize: 16,
-            maxWidth: 520,
-            lineHeight: 1.8,
-            margin: 0,
           }}
         >
-          Find STEM events or local resources around the island.
+          Find local STEM events and resources in Alameda.
         </p>
       </div>
 
@@ -92,8 +106,6 @@ export const Map = () => {
           style={{
             flex: 1,
             borderRadius: 10,
-            overflow: "hidden",
-            border: "1px solid rgba(11,37,69,0.1)",
             minHeight: 500,
             boxShadow: "0 4px 20px rgba(11,37,69,0.08)",
           }}
@@ -107,6 +119,55 @@ export const Map = () => {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+
+            {selected && <FlyTo coords={selected.coordinates} />}
+
+            {mappableEvents.map((event) => (
+              <Marker
+                key={event.activityId}
+                position={[event.coordinates.lat, event.coordinates.lng]}
+                eventHandlers={{ click: () => setSelected(event) }}
+              >
+                <Popup>
+                  <div style={{ minWidth: 180 }}>
+                    <strong style={{ fontSize: 14, color: "#0B2545" }}>
+                      {event.title}
+                    </strong>
+                    <p
+                      style={{
+                        margin: "6px 0 4px",
+                        fontSize: 12,
+                        color: "#1E6091",
+                      }}
+                    >
+                      {event.description}
+                    </p>
+                    <p
+                      style={{ margin: "0 0 8px", fontSize: 11, color: "#888" }}
+                    >
+                      Location: {event.location}
+                    </p>
+                    <button
+                      onClick={() =>
+                        navigate(`/activities/${event.activityId}`)
+                      }
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                        border: "none",
+                        borderRadius: 4,
+                        padding: "6px 12px",
+                        fontSize: 12,
+                        cursor: "pointer",
+                        width: "100%",
+                      }}
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
         </div>
       </div>
