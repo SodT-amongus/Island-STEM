@@ -17,6 +17,14 @@ const FlyTo = ({ coords }) => {
 
 delete L.Icon.Default.prototype._getIconUrl;
 
+const customIcon = new L.Icon({
+  iconUrl: "https://i.postimg.cc/52TPMPmm/image.png",
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+  className: "custom-marker-icon",
+});
+
 export const Map = () => {
   const { activities, activitiesLoading } = useActivityContext();
   const [selected, setSelected] = useState(null);
@@ -119,6 +127,7 @@ export const Map = () => {
                 key={event.activityId}
                 position={[event.coordinates.lat, event.coordinates.lng]}
                 eventHandlers={{ click: () => setSelected(event) }}
+                icon={customIcon}
               >
                 <Popup>
                   <div style={{ minWidth: 180 }}>
