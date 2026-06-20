@@ -8,15 +8,6 @@ export const Home = () => {
   const { activities, activitiesLoading } = useActivityContext();
   const navigate = useNavigate();
 
-  const featuredProjects = !activitiesLoading
-    ? activities
-        .filter((a) => a.type === "project")
-        .sort(
-          (a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0),
-        )
-        .slice(0, 3)
-    : [];
-
   const featuredEvent = !activitiesLoading
     ? activities
         .filter((a) => a.type === "event")
@@ -29,7 +20,6 @@ export const Home = () => {
     <div style={{ backgroundColor: "#F5F0E8" }}>
       <Header />
 
-      {/* Hero */}
       <div style={{ position: "relative", height: "80vh", overflow: "hidden" }}>
         <img
           style={{
@@ -90,7 +80,6 @@ export const Home = () => {
           boxSizing: "border-box",
         }}
       >
-        {/* Discover */}
         <div
           style={{
             display: "flex",
@@ -158,7 +147,6 @@ export const Home = () => {
 
         <div style={{ height: 2, backgroundColor: "lightgray" }} />
 
-        {/* Explore / Map */}
         <div
           style={{
             display: "flex",
@@ -252,7 +240,6 @@ export const Home = () => {
                 flex: 1,
                 height: 2,
                 backgroundColor: "#F4E04D",
-                opacity: 0.5,
               }}
             />
             <span
@@ -266,26 +253,9 @@ export const Home = () => {
             </span>
           </div>
 
-          {activitiesLoading ? (
-            <p style={{ color: "#1E6091", fontSize: 14 }}>Loading...</p>
-          ) : !featuredEvent ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "48px 0",
-                color: "#1E6091",
-              }}
-            >
-              <div style={{ fontSize: 36, marginBottom: 10, opacity: 0.4 }}>
-                📅
-              </div>
-              <p style={{ margin: 0 }}>No events posted yet — be the first!</p>
-            </div>
-          ) : (
-            <div style={{ maxWidth: 360 }}>
-              <ActivityCard activity={featuredEvent} />
-            </div>
-          )}
+          <div style={{ maxWidth: 360 }}>
+            <ActivityCard activity={featuredEvent} />
+          </div>
         </div>
       </div>
 
