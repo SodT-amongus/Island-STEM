@@ -253,9 +253,26 @@ export const Home = () => {
             </span>
           </div>
 
-          <div style={{ maxWidth: 360 }}>
-            <ActivityCard activity={featuredEvent} />
-          </div>
+          {activitiesLoading ? (
+            <p style={{ color: "#1E6091", fontSize: 14 }}>Loading...</p>
+          ) : !featuredEvent ? (
+            <div
+              style={{
+                textAlign: "center",
+                padding: "48px 0",
+                color: "#1E6091",
+              }}
+            >
+              <div style={{ fontSize: 36, marginBottom: 10, opacity: 0.4 }}>
+                📅
+              </div>
+              <p style={{ margin: 0 }}>No events posted yet — be the first!</p>
+            </div>
+          ) : (
+            <div style={{ maxWidth: 360 }}>
+              <ActivityCard activity={featuredEvent} />
+            </div>
+          )}
         </div>
       </div>
 
