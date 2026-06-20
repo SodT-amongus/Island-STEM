@@ -95,7 +95,7 @@ export const Header = () => {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClick}
+        onClick={handleClose} // ✅ fixed
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
